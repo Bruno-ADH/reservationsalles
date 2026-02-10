@@ -23,6 +23,21 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
+    public boolean existeChevauchement(Reservation reservation) {
+        List<Reservation> conflits = reservationRepository.findChevauchements(
+                reservation.getSalle().getId(),
+                reservation.getDateReservation(),
+                reservation.getHeureDebut(),
+                reservation.getHeureFin());
+
+        // En cas de modification, on exclut la reservation elle-meme
+        if (reservation.getId() != null) {
+            conflits.removeIf(r -> r.getId().equals(reservation.getId()));
+        }
+
+        return !conflits.isEmpty();
+    }
+
     public Reservation saveReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }

@@ -47,9 +47,19 @@ public class ReservationController {
     @PostMapping("/save")
     public String save(@ModelAttribute Reservation reservation,
                        @RequestParam("utilisateurId") Long utilisateurId,
-                       @RequestParam("salleId") Long salleId) {
+                       @RequestParam("salleId") Long salleId,
+                       ModelMap model) {
         utilisateurService.getUtilisateurById(utilisateurId).ifPresent(reservation::setUtilisateur);
         salleService.getSalleById(salleId).ifPresent(reservation::setSalle);
+
+        if (reservation.getSalle() != null && reservationService.existeChevauchement(reservation)) {
+            model.addAttribute("erreur", "Cette salle est deja reservee sur ce creneau horaire.");
+            model.addAttribute("reservation", reservation);
+            model.addAttribute("utilisateurs", utilisateurService.getAllUtilisateurs());
+            model.addAttribute("salles", salleService.getAllSalles());
+            return "reservations/formulaire";
+        }
+
         reservationService.saveReservation(reservation);
         return "redirect:/reservations/liste";
     }
