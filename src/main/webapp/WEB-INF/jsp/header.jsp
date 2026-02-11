@@ -158,6 +158,44 @@
                 max-height: 300px;
             }
 
+            .desk a {
+                position: relative;
+                /* nécessaire pour que les ::before/::after soient bien placés */
+            }
+
+            .desk a::before,
+            .desk a::after {
+                content: "";
+                position: absolute;
+                bottom: -.8rem;
+                height: .8rem;
+                width: .15rem;
+                border-radius: .5rem;
+                background-color: rgba(6, 182, 212, .9);
+                opacity: 0;
+                transform: rotateZ(0) translate(0, 0);
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            }
+
+            .desk a::before {
+                left: 40%;
+            }
+
+            .desk a::after {
+                left: 60%;
+            }
+
+            .desk a:hover::before {
+                transform: translate(-40%, 0) rotateZ(50deg);
+                opacity: 1;
+            }
+
+            .desk a:hover::after {
+                transform: translate(-60%, 0) rotateZ(-50deg);
+                opacity: 1;
+            }
+
+
             .card {
                 position: relative;
                 overflow: hidden;
