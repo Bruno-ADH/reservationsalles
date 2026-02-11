@@ -1,4 +1,4 @@
-# ReservaSalles
+# FestiPlace
 
 Plateforme web de reservation de salles de fete, realisee avec Spring Boot et PostgreSQL.
 
