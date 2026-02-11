@@ -7,13 +7,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
         <link id="favicon" rel="icon" type="image/png" href="/favicon/001.png" />
 
         <title>FestiPlace</title>
         <style>
             body {
                 /* background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); */
-                background-image: url("/bgimage.png");
+                background-image: url("/bgimage.webp");
                 min-height: 100vh;
             }
 
@@ -21,8 +22,7 @@
                 content: "";
                 position: fixed;
                 inset: 0;
-                /* background: rgba(15, 12, 41, 0.95); */
-                background: linear-gradient(135deg, #0f0c29eb, #302b63eb, #24243eeb);
+                background: linear-gradient(135deg, #0f0c29ed, #302b63ed, #24243eed);
                 pointer-events: none;
                 z-index: -1;
             }
@@ -168,7 +168,6 @@
                 position: absolute;
                 inset: 0;
                 pointer-events: none;
-                /* 🔑 FIX MAJEUR */
                 background: radial-gradient(180px circle at var(--x, 50%) var(--y, 50%),
                         var(--spotlight-color),
                         transparent 60%);
@@ -217,14 +216,13 @@
                     intervalId = null;
                 }
 
-                // document.addEventListener("visibilitychange", function () {
-                //     if (document.hidden) {
-                //         // stopAnimation();
-                //         startAnimation();
-                //     } else {
-                //         startAnimation();
-                //     }
-                // });
+                document.addEventListener("visibilitychange", function () {
+                    if (document.hidden) {
+                        stopAnimation();
+                    } else {
+                        startAnimation();
+                    }
+                });
 
                 startAnimation();
             });
@@ -240,7 +238,7 @@
                         <img src="/logo.svg" alt="FestiPlace" class="h-8 sm:h-10" />
                     </a>
                     <!-- Desktop menu -->
-                    <div class="hidden md:flex items-center space-x-8">
+                    <div class="hidden desk md:flex items-center space-x-8">
                         <a href="/salles/liste"
                             class="text-gray-400 hover:text-cyan-400 transition duration-300 font-medium">
                             <i class="fa-solid fa-door-open mr-1.5"></i>Salles

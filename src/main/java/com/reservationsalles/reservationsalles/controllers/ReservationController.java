@@ -52,6 +52,15 @@ public class ReservationController {
         utilisateurService.getUtilisateurById(utilisateurId).ifPresent(reservation::setUtilisateur);
         salleService.getSalleById(salleId).ifPresent(reservation::setSalle);
 
+        if (reservation.getHeureDebut() != null && reservation.getHeureFin() != null
+                && !reservation.getHeureFin().isAfter(reservation.getHeureDebut())) {
+            model.addAttribute("erreur", "L'heure de fin doit etre superieure a l'heure de debut.");
+            model.addAttribute("reservation", reservation);
+            model.addAttribute("utilisateurs", utilisateurService.getAllUtilisateurs());
+            model.addAttribute("salles", salleService.getAllSalles());
+            return "reservations/formulaire";
+        }
+
         if (reservation.getSalle() != null && reservationService.existeChevauchement(reservation)) {
             model.addAttribute("erreur", "Cette salle est deja reservee sur ce creneau horaire.");
             model.addAttribute("reservation", reservation);
@@ -61,7 +70,7 @@ public class ReservationController {
         }
 
         reservationService.saveReservation(reservation);
-        return "redirect:/reservations/liste";
+        return "redirect:/reservations/liste?success=true";
     }
 
     @GetMapping("/modifier/{id}")
